@@ -1,0 +1,37 @@
+[
+    {
+        "block_id": 1,
+        "block_key": "23-east",
+        "block_name": "23区東部"
+    },
+    {
+        "block_id": 2,
+        "block_key": "23-west",
+        "block_name": "23区西部"
+    },
+    {
+        "block_id": 3,
+        "block_key": "23-city",
+        "block_name": "23区都心部"
+    },
+    {
+        "block_id": 4,
+        "block_key": "tama-north",
+        "block_name": "多摩北部"
+    },
+    {
+        "block_id": 5,
+        "block_key": "tama-south",
+        "block_name": "多摩南部"
+    },
+    {
+        "block_id": 6,
+        "block_key": "tama-west",
+        "block_name": "多摩西部"
+    },
+    {
+        "block_id": 7,
+        "block_key": "island",
+        "block_name": "島しょ部"
+    }
+]
