@@ -14,13 +14,6 @@ def main(input_csv, output_dir):
     pref_list = df["pref"].unique()
     pref_index_map = {pref: str(i + 1) for i, pref in enumerate(pref_list)}
 
-    # ---------- total.json（全国合計） ----------
-    grand_total = int(df["count"].sum())
-    total_path = os.path.join(output_dir, "total.json")
-    with open(total_path, "w", encoding="utf-8") as f:
-        json.dump({"sum": grand_total}, f, ensure_ascii=False, indent=2)
-    print(f"[出力] {total_path}")
-
     # ---------- prefs.json（都道府県ごとの合計） ----------
     prefs_data = {}
     for i, pref in enumerate(pref_list, start=1):
@@ -41,7 +34,7 @@ def main(input_csv, output_dir):
         city_data = {}
         for j, city in enumerate(city_list, start=1):
             city_sum = int(df_pref[df_pref["city"] == city]["count"].sum())
-            city_data[str(j)] = {"pref": city, "sum": city_sum}
+            city_data[str(j)] = {"city": city, "sum": city_sum}
 
             # prefX_cityY.json の作成
             df_city = df_pref[df_pref["city"] == city]
