@@ -1,40 +1,102 @@
 <!doctype html>
 <html lang="ja">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>メニュー | 安野たかひろ選挙掲示板マップ</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex" />
+  <title>ぴょん活マップ全国版</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="icon" type="image/png" href="/favicon.png">
-  </head>
-  <body>
-    <div class="container-sm my-5">
-      
-      <div class="col-lg-12 px-0">
+  <style>
+    .section-card {
+      background-color: #fff;
+      border: 1px solid #dee2e6;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
 
-        <h3 class="mb-4">安野たかひろ 選挙掲示板マップ</h3>
+    .section-card h3 {
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+    }
 
-        <div class="list-group mb-4">
-          <a href="./summary" class="list-group-item list-group-item-action">市区町村別進捗可視化</a>
-        </div>
+    .section-card a.btn,
+    .section-card .list-group-item {
+      border-radius: 0.5rem;
+    }
 
-        <div class="list-group mb-4">
-          <a href="./map/" class="list-group-item list-group-item-action">東京都全域</a>
-          <div id="container"></div>
-        </div>
+    .note {
+      font-size: 0.9rem;
+      color: #666;
+    }
 
-        <div class="list-group mb-4">
-          <a href="./vote" class="list-group-item list-group-item-action">期日前投票所</a>
-        </div>
+    .small-note {
+      font-size: 0.9rem;
+      color: #6c757d;
+    }
 
-        <div>
-          <a href="https://takahiroanno.com/" target="_blank" rel="noopener noreferrer" class="link-secondary">安野たかひろ 公式ホームページ</a>
-        </div>
+    @media (max-width: 576px) {
+      .section-card {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
 
+<body>
+  <div class="container-sm my-4">
+
+    <!-- 🐇 ぴょん活報告マップ -->
+    <div class="section-card">
+      <h3>🐇ぴょん活報告マップ全国版🐇</h3>
+      <div class="mb-3">
+        <a href="./conquer/" class="btn btn-outline-primary w-100 mb-3">
+          ポスティングして全国に色を塗ろう！
+        </a>
+      </div>
+
+      <!-- コピペ用テキスト -->
+      <div class="mb-3">
+        <label for="copyText" class="form-label">📋報告テンプレ（クリックでコピー）</label>
+        <textarea id="copyText" class="form-control mb-2" rows="4" readonly style="cursor:pointer;"
+          onclick="copyToClipboard()">ぴょん活報告
+東京都千代田区永田町1丁目
+100
+テスト投稿</textarea>
+        <div id="copyMsg" class="text-success small" style="display:none;">✅ コピーしました！</div>
+      </div>
+
+      <!-- コピー後の案内文 -->
+      <div class="small-note">
+        コピーしたら、2行目：住所、3行目：枚数、4行目：コメント を書き換えて、LINEに貼って送信してください🐰<br>
+        住所入力時のポイントは「丁目」がある場合は丁目まで、なければ町名まで書いてください。<br>
+        東京都❌<br>
+        千代田区❌<br>
+        千代田区永田町❌<br>
+        千代田区永田町1丁目：✅ OK<br>
       </div>
     </div>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="/scripts/menu.js"></script>
-  </body>
+  <script>
+    function copyToClipboard() {
+      const textarea = document.getElementById("copyText");
+      textarea.select();
+      textarea.setSelectionRange(0, 99999); // モバイル対応
+
+      navigator.clipboard.writeText(textarea.value).then(() => {
+        const msg = document.getElementById("copyMsg");
+        msg.style.display = "block";
+        setTimeout(() => msg.style.display = "none", 2000);
+      });
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
 </html>
