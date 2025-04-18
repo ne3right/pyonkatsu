@@ -21,37 +21,29 @@ function legend() {
 }
 
 function getProgressColor(value) {
+  const blueStart = { r: 128, g: 224, b: 255 }; // 明るい青
+  const blueEnd = { r: 0, g: 0, b: 255 };       // 濃い青
 
   let lower = milestones[0];
   let upper = milestones[milestones.length - 1];
 
-  // valueが上限を超える場合、upperを最大のmilestoneに設定
-  if (value >= upper) {
-    upper = milestones[milestones.length - 1];
-    lower = milestones[milestones.length - 2];
-  } else {
-    for (let i = 1; i < milestones.length; i++) {
-      if (value <= milestones[i]) {
-        upper = milestones[i];
-        lower = milestones[i - 1];
-        break;
-      }
+  let index = 0;
+  for (let i = 1; i < milestones.length; i++) {
+    if (value < milestones[i]) {
+      lower = milestones[i - 1];
+      upper = milestones[i];
+      index = i - 1;
+      break;
     }
+    index = i - 1;
   }
 
-  // 進捗を0から1に変換する
-  const rangePct = (value - lower) / (upper - lower);
-  // 進捗が範囲外に出ないように制限
-  const clampedRangePct = Math.min(Math.max(rangePct, 0), 1);
+  const localPct = (value - lower) / (upper - lower);
+  const globalPct = (index + localPct) / (milestones.length - 1); // 全体での位置
 
-  // 青系のグラデーションの色設定
-  // 0は薄い青、10000は濃い青
-  const blueStart = { r: 128, g: 224, b: 255 }; // 明るい青 (薄い青)
-  const blueEnd = { r: 0, g: 0, b: 255 }; // 濃い青 (濃い青)
-
-  const r = Math.round(blueStart.r + clampedRangePct * (blueEnd.r - blueStart.r));
-  const g = Math.round(blueStart.g + clampedRangePct * (blueEnd.g - blueStart.g));
-  const b = Math.round(blueStart.b + clampedRangePct * (blueEnd.b - blueStart.b));
+  const r = Math.round(blueStart.r + globalPct * (blueEnd.r - blueStart.r));
+  const g = Math.round(blueStart.g + globalPct * (blueEnd.g - blueStart.g));
+  const b = Math.round(blueStart.b + globalPct * (blueEnd.b - blueStart.b));
 
   return `rgb(${r}, ${g}, ${b})`;
 }
