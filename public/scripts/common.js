@@ -44,6 +44,49 @@ async function getPostingData(pref_id = null, city_id = null) {
   return response.json();
 }
 
+async function getMyFavPostingData(pref_id = null, city_id = null) {
+  let response;
+
+  if (!pref_id) {
+    // 全国データ
+    response = await fetch('/data/myfav/prefs.json');
+  } else if (!city_id) {
+    // 都道府県単位
+    response = await fetch(`/data/myfav/pref${pref_id}.json`);
+  } else {
+    // 市区町村単位
+    response = await fetch(`/data/myfav/pref${pref_id}_city${city_id}.json`);
+  }
+  return response.json();
+}
+
+function transformByMemberNameWithAreaKeys(originalData) {
+  const result = {};
+
+  for (const areaId in originalData) {
+    const area = originalData[areaId];
+    const areaName = area.city || area.pref || area.address || '不明';
+    const members = area.members;
+
+    if (Array.isArray(members)) {
+      members.forEach(member => {
+        const name = member.name;
+        const count = member.count;
+
+        if (!result[name]) {
+          result[name] = {};
+        }
+
+        result[name][areaId] = {
+          area: areaName,
+          count: count
+        };
+      });
+    }
+  }
+
+  return result;
+}
 
 function areatotalBox(totalValue, position){
   var control = L.control({position: position});
